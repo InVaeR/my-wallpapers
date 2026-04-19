@@ -1,62 +1,86 @@
-let streams = [];
-const symbolSize = 18;
+const config = {
+	textSize: 30,
+	columnWidth: 30,
+	frameRate: 60,
+	minSpeed: 150, // px/sec 200 better but harder
+	maxSpeed: 400, // px/sec
+	debugLog: false,
+};
+
+let matrixFont;
+
+function preload() {
+	// Matrix Code NFI
+	matrixFont = null;
+	matrixFont = loadFont('https://fonts.cdnfonts.com/s/11243/matrix code nfi.woff');
+}
+
+let rainDrops = [];
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  let cols = ceil(width / symbolSize);
-  for (let i = 0; i < cols; i++) {
-    streams.push(new Stream(i * symbolSize, random(-1000, 0)));
+	createCanvas(windowWidth, windowHeight);
+	frameRate(config.frameRate);
+	
+	if (matrixFont) {
+		textFont(matrixFont);
+	} else {
+		textFont('Consolas');
+		print("Font not load")
+	}
+	
+	textSize(config.textSize);
+	textAlign(CENTER, CENTER);
+
+	initializeRainDrops();
+}
+
+function initializeRainDrops() {
+  rainDrops = [];
+  const columns = Math.ceil(width / config.columnWidth);
+  for (let i = 0; i < columns; i++) {
+    rainDrops.push(new RainDrop(i * config.columnWidth));
   }
-  textFont('monospace');
-  textSize(symbolSize);
 }
 
 function draw() {
-  background(0, 50);
-  for (let s of streams) {
-    s.update();
-    s.show();
+  background(10, 20, 10, 90);
+  let dt = deltaTime / 1000;
+
+  checkAndCreateNewRainDrops();
+
+  for (let rainDrop of rainDrops) {
+    rainDrop.update(dt);
+    rainDrop.show();
+  }
+
+  removeFinishedRainDrops();
+  
+  // DEBUG
+	if (config.debugLog && frameCount % 60 === 0) {
+		console.log(`FPS: ${frameRate().toFixed(1)}, RainDrops: ${rainDrops.length}, Total chars: ${rainDrops.reduce((sum, drop) => sum + drop.characters.length, 0)}`);
+	}
+}
+
+
+function checkAndCreateNewRainDrops() {
+  for (let i = 0; i < rainDrops.length; i++) {
+    const drop = rainDrops[i];
+    if (drop.isReady() && !drop.hasReplacement) {
+      rainDrops.push(new RainDrop(drop.x));
+      drop.hasReplacement = true;
+    }
+  }
+}
+
+function removeFinishedRainDrops() {
+  for (let i = rainDrops.length - 1; i >= 0; i--) {
+    if (rainDrops[i].isFinished()) {
+      rainDrops.splice(i, 1);
+    }
   }
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-}
-
-class Stream {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.speed = random(3, 8);
-    this.length = floor(random(10, 30));
-    this.chars = [];
-    for (let i = 0; i < this.length; i++) {
-      this.chars.push(String.fromCharCode(0x30A0 + floor(random(96))));
-    }
-  }
-
-  update() {
-    this.y += this.speed;
-    if (this.y - this.length * symbolSize > height) {
-      this.y = random(-500, 0);
-      this.speed = random(3, 8);
-    }
-    if (random() < 0.05) {
-      let idx = floor(random(this.chars.length));
-      this.chars[idx] = String.fromCharCode(0x30A0 + floor(random(96)));
-    }
-  }
-
-  show() {
-    for (let i = 0; i < this.chars.length; i++) {
-      let yPos = this.y - i * symbolSize;
-      if (yPos < 0 || yPos > height) continue;
-      if (i === 0) {
-        fill(180, 255, 180);
-      } else {
-        fill(0, map(i, 0, this.length, 255, 50), 0);
-      }
-      text(this.chars[i], this.x, yPos);
-    }
-  }
+  initializeRainDrops();
 }
