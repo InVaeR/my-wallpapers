@@ -3,31 +3,81 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎨 Живые обои — Каталог</title>
+  <title>wallpaper_hub :: terminal</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <!-- Фоновый эффект сканлайнов -->
+  <div class="scanlines"></div>
+  <div class="flicker"></div>
+
+  <!-- Верхняя панель -->
   <header>
-    <h1>🎨 Живые обои</h1>
-    <p class="subtitle">Выберите обои и вставьте ссылку в Lively Wallpaper</p>
+    <div class="header-line">
+      <span class="prompt">user@wallpapers</span>:<span class="path">~/catalog</span>$
+      <span class="typed">ls --live-wallpapers</span>
+      <span class="cursor">█</span>
+    </div>
+    <div class="header-ascii">
+<pre>
+ ██╗    ██╗ █████╗ ██╗     ██╗     ██████╗  █████╗ ██████╗ ███████╗██████╗ ███████╗
+ ██║    ██║██╔══██╗██║     ██║     ██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔════╝
+ ██║ █╗ ██║███████║██║     ██║     ██████╔╝███████║██████╔╝█████╗  ██████╔╝███████╗
+ ██║███╗██║██╔══██║██║     ██║     ██╔═══╝ ██╔══██║██╔═══╝ ██╔══╝  ██╔══██╗╚════██║
+ ╚███╔███╔╝██║  ██║███████╗███████╗██║     ██║  ██║██║     ███████╗██║  ██║███████║
+  ╚══╝╚══╝ ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
+</pre>
+    </div>
+    <p class="sys-info">
+      <span class="green">[SYS]</span> Найдено обоев: <span id="count" class="bright">0</span>
+      &nbsp;|&nbsp; Статус: <span class="bright">ONLINE</span>
+      &nbsp;|&nbsp; Для установки скопируйте URL в <span class="bright">Lively Wallpaper</span>
+    </p>
+    <div class="divider">════════════════════════════════════════════════════════════════</div>
   </header>
 
+  <!-- Галерея -->
   <main class="gallery" id="gallery"></main>
 
+  <!-- Подвал -->
+  <footer>
+    <div class="divider">════════════════════════════════════════════════════════════════</div>
+    <p>
+      <span class="prompt">user@wallpapers</span>:<span class="path">~</span>$
+      echo "Powered by p5.js • Hosted on GitHub Pages"
+    </p>
+    <p class="dim">© 2024 :: All wallpapers are free to use :: MIT License</p>
+  </footer>
+
+  <!-- Модальное окно -->
   <div class="modal" id="modal">
     <div class="modal-content">
-      <span class="close" id="modal-close">&times;</span>
-      <h2 id="modal-title"></h2>
-      <p id="modal-desc"></p>
-      <div class="url-box">
-        <input type="text" id="modal-url" readonly>
-        <button id="copy-btn">📋 Копировать</button>
+      <div class="modal-header">
+        <span class="green">┌──</span> <span class="bright" id="modal-title"></span> <span class="green">──┐</span>
+        <span class="close" id="modal-close">[X]</span>
       </div>
-      <p class="instruction">
-        Откройте <strong>Lively Wallpaper</strong> → нажмите <strong>+</strong> → вставьте URL
-      </p>
-      <a id="modal-preview" href="#" target="_blank" class="btn-preview">👁 Предпросмотр</a>
+      <div class="modal-body">
+        <p><span class="green">&gt;</span> <span id="modal-desc" class="dim"></span></p>
+
+        <p class="label"><span class="green">[URL]</span> Ссылка для Lively Wallpaper:</p>
+        <div class="url-box">
+          <input type="text" id="modal-url" readonly>
+          <button id="copy-btn">[COPY]</button>
+        </div>
+        <p id="copy-status" class="copy-status"></p>
+
+        <div class="instructions">
+          <p class="green">┌─ Инструкция ─────────────────────────┐</p>
+          <p>│ 1. Скопируйте URL выше &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+          <p>│ 2. Откройте <span class="bright">Lively Wallpaper</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+          <p>│ 3. Нажмите <span class="bright">[+]</span> → вставьте URL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+          <p>│ 4. Готово! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+          <p class="green">└──────────────────────────────────────┘</p>
+        </div>
+
+        <a id="modal-preview" href="#" target="_blank" class="btn-preview">[&gt; PREVIEW]</a>
+      </div>
     </div>
   </div>
 
@@ -37,58 +87,70 @@
     const wallpapers = [
       {
         id: 'particle-storm',
-        title: 'Particle Storm',
-        desc: 'Вихрь светящихся частиц',
-        tags: ['частицы', 'тёмная тема'],
-        color: '#1a0033'
-      },
-      {
-        id: 'wave-ocean',
-        title: 'Wave Ocean',
-        desc: 'Плавные океанские волны',
-        tags: ['волны', 'синий'],
-        color: '#001a33'
+        title: 'PARTICLE_STORM',
+        desc: 'Вихрь светящихся частиц в пустоте',
+        tags: ['particles', 'dark', 'glow']
       },
       {
         id: 'matrix-rain',
-        title: 'Matrix Rain',
-        desc: 'Дождь из символов в стиле Матрицы',
-        tags: ['матрица', 'зелёный'],
-        color: '#001a00'
+        title: 'MATRIX_RAIN',
+        desc: 'Символьный дождь в стиле Матрицы',
+        tags: ['matrix', 'green', 'code']
       },
       {
         id: 'neon-grid',
-        title: 'Neon Grid',
-        desc: 'Ретро неоновая сетка 80-х',
-        tags: ['ретро', 'неон'],
-        color: '#1a0a2e'
+        title: 'NEON_GRID',
+        desc: 'Ретро-сетка с неоновым горизонтом',
+        tags: ['retro', 'synthwave', '80s']
+      },
+      {
+        id: 'wave-ocean',
+        title: 'WAVE_OCEAN',
+        desc: 'Плавные волны цифрового океана',
+        tags: ['waves', 'blue', 'calm']
       }
     ];
 
     const gallery = document.getElementById('gallery');
+    const countEl = document.getElementById('count');
+    countEl.textContent = wallpapers.length;
+
+    wallpapers.forEach((w, index) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-border">
+          <div class="card-header">
+            <span class="green">[${ (index + 1).toString().padStart(2, '0') }]</span>
+            <span class="bright">${w.title}</span>
+            <span class="dim">.exe</span>
+          </div>
+          <div class="card-preview">
+            <iframe src="wallpapers/${w.id}/index.html" loading="lazy"></iframe>
+            <div class="card-scanline"></div>
+          </div>
+          <div class="card-footer">
+            <p class="dim">&gt; ${w.desc}</p>
+            <div class="tags">
+              ${w.tags.map(t => `<span class="tag">#${t}</span>`).join(' ')}
+            </div>
+            <p class="run-hint">[ENTER] → Установить</p>
+          </div>
+        </div>
+      `;
+      card.addEventListener('click', () => openModal(w));
+      gallery.appendChild(card);
+    });
+
+    // Модалка
     const modal = document.getElementById('modal');
     const modalTitle = document.getElementById('modal-title');
     const modalDesc = document.getElementById('modal-desc');
     const modalUrl = document.getElementById('modal-url');
     const modalPreview = document.getElementById('modal-preview');
     const copyBtn = document.getElementById('copy-btn');
+    const copyStatus = document.getElementById('copy-status');
     const modalClose = document.getElementById('modal-close');
-
-    wallpapers.forEach(w => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.style.background = `linear-gradient(135deg, ${w.color}, #000)`;
-      card.innerHTML = `
-        <iframe src="wallpapers/${w.id}/index.html" loading="lazy"></iframe>
-        <div class="card-overlay">
-          <h3>${w.title}</h3>
-          <p>${w.desc}</p>
-          <div class="tags">${w.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-        </div>
-      `;
-      card.addEventListener('click', () => openModal(w));
-      gallery.appendChild(card);
-    });
 
     function openModal(w) {
       const url = `${GITHUB_PAGES_BASE}/wallpapers/${w.id}/index.html`;
@@ -96,6 +158,8 @@
       modalDesc.textContent = w.desc;
       modalUrl.value = url;
       modalPreview.href = url;
+      copyStatus.textContent = '';
+      copyBtn.textContent = '[COPY]';
       modal.classList.add('active');
     }
 
@@ -103,14 +167,35 @@
     modal.addEventListener('click', (e) => {
       if (e.target === modal) modal.classList.remove('active');
     });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') modal.classList.remove('active');
+    });
 
     copyBtn.addEventListener('click', () => {
-      modalUrl.select();
       navigator.clipboard.writeText(modalUrl.value).then(() => {
-        copyBtn.textContent = '✅ Скопировано!';
-        setTimeout(() => copyBtn.textContent = '📋 Копировать', 2000);
+        copyBtn.textContent = '[OK!]';
+        copyStatus.textContent = '> URL скопирован в буфер обмена ✓';
+        copyStatus.style.color = '#00ff41';
+        setTimeout(() => {
+          copyBtn.textContent = '[COPY]';
+          copyStatus.textContent = '';
+        }, 3000);
       });
     });
+
+    // Эффект печатания в заголовке
+    const typedEl = document.querySelector('.typed');
+    const fullText = typedEl.textContent;
+    typedEl.textContent = '';
+    let charIndex = 0;
+    function typeWriter() {
+      if (charIndex < fullText.length) {
+        typedEl.textContent += fullText.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeWriter, 60 + Math.random() * 80);
+      }
+    }
+    setTimeout(typeWriter, 500);
   </script>
 
 </body>
