@@ -23,7 +23,7 @@ class Character {
   }
 
   show() {
-    const realY = Math.floor(this.y / config.textSize) * config.textSize;
+    const realY = this.y;
     
     if (this.isLeading) {
       // Ведущий символ
@@ -31,7 +31,7 @@ class Character {
       
       // Эффект свечения для ведущего символа
       drawingContext.shadowColor = color(180, 255, 200, 150);
-      drawingContext.shadowBlur = 20;
+      drawingContext.shadowBlur = 40;
     } else {
       // Обычные символы
       fill(0, 255, 70, this.brightness);
