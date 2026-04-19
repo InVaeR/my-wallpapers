@@ -1,0 +1,199 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #0a0a0a;
+  color: #fff;
+  min-height: 100vh;
+}
+
+header {
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(90deg, #ff6ec7, #7873f5, #4fc3f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  color: #888;
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+/* Галерея карточек */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+  padding: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  cursor: pointer;
+  border: 1px solid #222;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(120, 115, 245, 0.3);
+}
+
+.card iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+}
+
+.card-overlay h3 {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+.card-overlay p {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.tags {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: #ccc;
+}
+
+/* Модальное окно */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: #1a1a2e;
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 520px;
+  width: 90%;
+  position: relative;
+}
+
+.modal-content h2 {
+  margin-bottom: 8px;
+}
+
+.modal-content > p {
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.close:hover {
+  color: #fff;
+}
+
+.url-box {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.url-box input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #0d0d1a;
+  color: #4fc3f7;
+  font-size: 0.85rem;
+  font-family: monospace;
+}
+
+.url-box button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #7873f5;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.url-box button:hover {
+  background: #5a55d0;
+}
+
+.instruction {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.btn-preview {
+  display: inline-block;
+  padding: 10px 24px;
+  background: #1e1e3a;
+  color: #4fc3f7;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid #333;
+  transition: background 0.2s;
+}
+
+.btn-preview:hover {
+  background: #2a2a50;
+}
