@@ -47,14 +47,14 @@
       <span class="prompt">user@wallpapers</span>:<span class="path">~</span>$
       echo "Powered by p5.js • Hosted on GitHub Pages"
     </p>
-    <p class="dim">© 2024 :: All wallpapers are free to use :: MIT License</p>
+    <p class="dim">© 2026 :: All wallpapers are free to use</p>
   </footer>
 
   <!-- Модальное окно -->
   <div class="modal" id="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <span class="green">┌──</span> <span class="bright" id="modal-title"></span> <span class="green">──┐</span>
+        <span class="bright" id="modal-title"></span>
         <span class="close" id="modal-close">[X]</span>
       </div>
       <div class="modal-body">
@@ -69,10 +69,10 @@
 
         <div class="instructions">
           <p class="green">┌─ Инструкция ─────────────────────────┐</p>
-          <p>│ 1. Скопируйте URL выше &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
-          <p>│ 2. Откройте <span class="bright">Lively Wallpaper</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
-          <p>│ 3. Нажмите <span class="bright">[+]</span> → вставьте URL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
-          <p>│ 4. Готово! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+          <p class="green">│ 1. Скопируйте URL выше &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+          <p class="green">│ 2. Откройте <span class="bright">Lively Wallpaper</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+          <p class="green">│ 3. Нажмите <span class="bright">[+]</span> → вставьте URL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+          <p class="green">│ 4. Готово! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
           <p class="green">└──────────────────────────────────────┘</p>
         </div>
 
@@ -88,27 +88,21 @@
       {
         id: 'particle-storm',
         title: 'PARTICLE_STORM',
-        desc: 'Вихрь светящихся частиц в пустоте',
+        desc: 'Частици',
         tags: ['particles', 'dark', 'glow']
       },
       {
         id: 'matrix-rain',
         title: 'MATRIX_RAIN',
-        desc: 'Символьный дождь в стиле Матрицы',
+        desc: 'Символьный дождь в стиле эффекта их фильма Матрица',
         tags: ['matrix', 'green', 'code']
       },
       {
-        id: 'neon-grid',
-        title: 'NEON_GRID',
-        desc: 'Ретро-сетка с неоновым горизонтом',
-        tags: ['retro', 'synthwave', '80s']
+        id: 'matrix-code',
+        title: 'MATRIX_CODE',
+        desc: '',
+        tags: ['matrix', 'green', 'code']
       },
-      {
-        id: 'wave-ocean',
-        title: 'WAVE_OCEAN',
-        desc: 'Плавные волны цифрового океана',
-        tags: ['waves', 'blue', 'calm']
-      }
     ];
 
     const gallery = document.getElementById('gallery');
