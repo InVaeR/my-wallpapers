@@ -164,7 +164,7 @@ function draw() {
       if (hasImage) {
         const brightness = getImageBrightness(x, y);
         if (brightness >= 0) {
-          val += brightness * IMG_WEIGHT;
+          val += brightness * IMG_WEIGHT * cos(10*t);
         }
       }
 
