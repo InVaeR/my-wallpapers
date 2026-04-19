@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎨 Живые обои — Каталог</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>🎨 Живые обои</h1>
+    <p class="subtitle">Выберите обои и вставьте ссылку в Lively Wallpaper</p>
+  </header>
+
+  <main class="gallery" id="gallery"></main>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close" id="modal-close">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-desc"></p>
+      <div class="url-box">
+        <input type="text" id="modal-url" readonly>
+        <button id="copy-btn">📋 Копировать</button>
+      </div>
+      <p class="instruction">
+        Откройте <strong>Lively Wallpaper</strong> → нажмите <strong>+</strong> → вставьте URL
+      </p>
+      <a id="modal-preview" href="#" target="_blank" class="btn-preview">👁 Предпросмотр</a>
+    </div>
+  </div>
+
+  <script>
+    const GITHUB_PAGES_BASE = 'https://ваш-юзернейм.github.io/my-wallpapers';
+
+    const wallpapers = [
+      {
+        id: 'particle-storm',
+        title: 'Particle Storm',
+        desc: 'Вихрь светящихся частиц',
+        tags: ['частицы', 'тёмная тема'],
+        color: '#1a0033'
+      },
+      {
+        id: 'wave-ocean',
+        title: 'Wave Ocean',
+        desc: 'Плавные океанские волны',
+        tags: ['волны', 'синий'],
+        color: '#001a33'
+      },
+      {
+        id: 'matrix-rain',
+        title: 'Matrix Rain',
+        desc: 'Дождь из символов в стиле Матрицы',
+        tags: ['матрица', 'зелёный'],
+        color: '#001a00'
+      },
+      {
+        id: 'neon-grid',
+        title: 'Neon Grid',
+        desc: 'Ретро неоновая сетка 80-х',
+        tags: ['ретро', 'неон'],
+        color: '#1a0a2e'
+      }
+    ];
+
+    const gallery = document.getElementById('gallery');
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalUrl = document.getElementById('modal-url');
+    const modalPreview = document.getElementById('modal-preview');
+    const copyBtn = document.getElementById('copy-btn');
+    const modalClose = document.getElementById('modal-close');
+
+    wallpapers.forEach(w => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.background = `linear-gradient(135deg, ${w.color}, #000)`;
+      card.innerHTML = `
+        <iframe src="wallpapers/${w.id}/index.html" loading="lazy"></iframe>
+        <div class="card-overlay">
+          <h3>${w.title}</h3>
+          <p>${w.desc}</p>
+          <div class="tags">${w.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+        </div>
+      `;
+      card.addEventListener('click', () => openModal(w));
+      gallery.appendChild(card);
+    });
+
+    function openModal(w) {
+      const url = `${GITHUB_PAGES_BASE}/wallpapers/${w.id}/index.html`;
+      modalTitle.textContent = w.title;
+      modalDesc.textContent = w.desc;
+      modalUrl.value = url;
+      modalPreview.href = url;
+      modal.classList.add('active');
+    }
+
+    modalClose.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+
+    copyBtn.addEventListener('click', () => {
+      modalUrl.select();
+      navigator.clipboard.writeText(modalUrl.value).then(() => {
+        copyBtn.textContent = '✅ Скопировано!';
+        setTimeout(() => copyBtn.textContent = '📋 Копировать', 2000);
+      });
+    });
+  </script>
+
+</body>
+</html>
