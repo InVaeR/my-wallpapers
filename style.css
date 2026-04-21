@@ -16,7 +16,7 @@
   --green: #00ff41;
   --green-dim: #00aa2a;
   --green-dark: #004d00;
-  --green-glow: rgba(0, 255, 65, 0.15);
+  --green-glow: rgba(0, 255, 65, 0.25);
   --bg: #0a0a0a;
   --bg-card: #0d1a0d;
   --border: #0f3d0f;
@@ -146,7 +146,7 @@ header {
 }
 
 /* ═══════════════════════════════════════
-   ГАЛЕРЕЯ
+   ГАЛЕРЕЯ (анимация появления)
    ═══════════════════════════════════════ */
 .gallery {
   display: grid;
@@ -157,13 +157,30 @@ header {
   margin: 0 auto;
 }
 
-/* ═══════════════════════════════════════
-   КАРТОЧКА
-   ═══════════════════════════════════════ */
 .card {
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s;
+  animation: fadeSlideUp 0.5s ease-out backwards;
 }
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Задержки для карточек (плавный вход) */
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.10s; }
+.card:nth-child(3) { animation-delay: 0.15s; }
+.card:nth-child(4) { animation-delay: 0.20s; }
+.card:nth-child(5) { animation-delay: 0.25s; }
+.card:nth-child(6) { animation-delay: 0.30s; }
 
 .card:hover {
   transform: scale(1.02);
@@ -172,12 +189,13 @@ header {
 .card:hover .card-border {
   border-color: var(--green);
   box-shadow:
-    0 0 15px var(--green-glow),
-    inset 0 0 15px var(--green-glow);
+    0 0 18px var(--green-glow),
+    inset 0 0 8px var(--green-glow);
 }
 
 .card:hover .run-hint {
   color: var(--green);
+  text-shadow: 0 0 4px var(--green-glow);
 }
 
 .card-border {
@@ -240,17 +258,22 @@ header {
 .tag {
   color: var(--green-dim);
   font-size: 0.75rem;
+  transition: color 0.2s;
+}
+
+.card:hover .tag {
+  color: var(--green);
 }
 
 .run-hint {
   color: var(--text-dim);
   font-size: 0.75rem !important;
   text-align: right;
-  transition: color 0.3s;
+  transition: color 0.3s, text-shadow 0.3s;
 }
 
 /* ═══════════════════════════════════════
-   МОДАЛКА
+   МОДАЛКА (плавное появление)
    ═══════════════════════════════════════ */
 .modal {
   display: none;
@@ -264,6 +287,12 @@ header {
 
 .modal.active {
   display: flex;
+  animation: fadeBg 0.2s ease;
+}
+
+@keyframes fadeBg {
+  from { background: rgba(0, 0, 0, 0); }
+  to   { background: rgba(0, 0, 0, 0.85); }
 }
 
 .modal-content {
@@ -273,6 +302,18 @@ header {
   max-width: 560px;
   width: 92%;
   box-shadow: 0 0 30px var(--green-glow), 0 0 60px rgba(0, 255, 65, 0.05);
+  transform: scale(0.95);
+  transition: transform 0.2s ease;
+}
+
+.modal.active .modal-content {
+  transform: scale(1);
+  animation: modalPop 0.2s ease-out;
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.95); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
 }
 
 .modal-header {
@@ -292,6 +333,7 @@ header {
 
 .modal-header .close:hover {
   color: #ff4444;
+  text-shadow: 0 0 5px #ff4444;
 }
 
 .modal-body {
@@ -306,10 +348,12 @@ header {
 .url-box {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .url-box input {
   flex: 1;
+  min-width: 180px;
   padding: 8px 12px;
   border: 1px solid var(--border);
   border-radius: 2px;
@@ -341,6 +385,11 @@ header {
 .url-box button:hover {
   background: var(--green);
   color: #000;
+  box-shadow: 0 0 10px var(--green-glow);
+}
+
+.url-box button:active {
+  transform: scale(0.97);
 }
 
 .copy-status {
@@ -354,6 +403,7 @@ header {
   font-size: 0.8rem;
   line-height: 1.8;
   color: var(--text-dim);
+  font-family: monospace;
 }
 
 .btn-preview {
@@ -372,6 +422,7 @@ header {
   background: var(--green-dark);
   border-color: var(--green);
   text-shadow: 0 0 8px var(--green-glow);
+  box-shadow: 0 0 12px var(--green-glow);
 }
 
 /* ═══════════════════════════════════════
@@ -410,22 +461,32 @@ footer .dim {
   .instructions {
     font-size: 0.7rem;
   }
+
+  .url-box {
+    flex-direction: column;
+  }
+
+  .url-box button {
+    width: 100%;
+  }
 }
 
 /* ═══════════════════════════════════════
    СКРОЛЛБАР
    ═══════════════════════════════════════ */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
   background: var(--bg);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--green-dark);
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {

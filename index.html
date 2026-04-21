@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>wallpaper_hub :: terminal</title>
   <link rel="stylesheet" href="style.css">
+  <!-- favicon (зелёный квадрат) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2300ff41'/%3E%3C/svg%3E">
 </head>
 <body>
 
@@ -123,6 +125,11 @@
       }
     ];
 
+    // Функция для безопасного отображения описания
+    function getDisplayDesc(desc) {
+      return desc && desc.trim() !== '' ? desc : 'Нет описания';
+    }
+
     const gallery = document.getElementById('gallery');
     const countEl = document.getElementById('count');
     countEl.textContent = wallpapers.length;
@@ -130,6 +137,7 @@
     wallpapers.forEach((w, index) => {
       const card = document.createElement('div');
       card.className = 'card';
+      const displayDesc = getDisplayDesc(w.desc);
       card.innerHTML = `
         <div class="card-border">
           <div class="card-header">
@@ -138,11 +146,11 @@
             <span class="dim">.exe</span>
           </div>
           <div class="card-preview">
-            <iframe src="wallpapers/${w.id}/index.html" loading="lazy"></iframe>
+            <iframe src="wallpapers/${w.id}/index.html" loading="lazy" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
             <div class="card-scanline"></div>
           </div>
           <div class="card-footer">
-            <p class="dim">&gt; ${w.desc}</p>
+            <p class="dim">&gt; ${displayDesc}</p>
             <div class="tags">
               ${w.tags.map(t => `<span class="tag">#${t}</span>`).join(' ')}
             </div>
@@ -167,11 +175,12 @@
     function openModal(w) {
       const url = `${GITHUB_PAGES_BASE}/wallpapers/${w.id}/index.html`;
       modalTitle.textContent = w.title;
-      modalDesc.textContent = w.desc;
+      modalDesc.textContent = getDisplayDesc(w.desc);
       modalUrl.value = url;
       modalPreview.href = url;
       copyStatus.textContent = '';
       copyBtn.textContent = '[COPY]';
+      copyBtn.style.borderColor = ''; // сброс стиля
       modal.classList.add('active');
     }
 
@@ -185,13 +194,22 @@
 
     copyBtn.addEventListener('click', () => {
       navigator.clipboard.writeText(modalUrl.value).then(() => {
+        // Визуальная обратная связь
         copyBtn.textContent = '[OK!]';
+        copyBtn.style.borderColor = '#00ff41';
+        copyBtn.style.backgroundColor = '#00ff4122';
         copyStatus.textContent = '> URL скопирован в буфер обмена ✓';
         copyStatus.style.color = '#00ff41';
         setTimeout(() => {
           copyBtn.textContent = '[COPY]';
+          copyBtn.style.borderColor = '';
+          copyBtn.style.backgroundColor = '';
           copyStatus.textContent = '';
         }, 3000);
+      }).catch(() => {
+        copyStatus.textContent = '> Ошибка: не удалось скопировать';
+        copyStatus.style.color = '#ff4444';
+        setTimeout(() => copyStatus.textContent = '', 2000);
       });
     });
 
