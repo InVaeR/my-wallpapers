@@ -105,8 +105,8 @@ function recalcImageLayout() {
 
 // --- Пересчёт сетки ---
 function recalcGrid() {
-  cols = Math.floor(windowWidth / CELL_W);
-  rows = Math.floor(windowHeight / CELL_H);
+  cols = Math.floor(windowWidth / CELL_W+1);
+  rows = Math.floor(windowHeight / CELL_H+1);
 }
 
 // --- Яркость пикселя изображения по экранным координатам ---
