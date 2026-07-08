@@ -134,6 +134,8 @@ function setup() {
   textAlign(LEFT, TOP);
   noiseDetail(4, 0.5);
 
+  frameRate(60);
+
   if (imgReady) {
     img.loadPixels();
     buildBrightnessCache();
@@ -146,7 +148,7 @@ function draw() {
   background(BG_COLOR);
   t += NOISE_SPEED;
 
-  const invNoiseScale = 1 / NOISE_SCALE; // деление → умножение (быстрее в цикле)
+  const invNoiseScale = 1 / NOISE_SCALE;
   const hasImage = imgReady && brightnessCache !== null;
 
   for (let i = 0; i < cols; i++) {
@@ -159,6 +161,18 @@ function draw() {
 
       // Шум Перлина
       let val = noisemap(noise(nX, nY, t));
+
+      let level1 = 0.3;
+      let level2 = 0.6;
+      let level3 = 0.9;
+      let gl_width = 0.02;
+
+      
+
+      if(val > level1 && val < level1 + gl_width ||
+        val > level2 && val < level2 + gl_width ||
+        val > level3 && val < level3 + gl_width
+      ) val = 0;
 
       // Добавляем яркость изображения
       if (hasImage) {

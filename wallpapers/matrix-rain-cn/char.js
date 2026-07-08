@@ -23,14 +23,13 @@ class Character {
   }
 
   show() {
-    const realY = this.y;
+    const realY = Math.floor(this.y / config.textSize) * config.textSize;
     
     if (this.isLeading) {
       // Ведущий символ
       fill(180, 255, 200);
       
-      // Эффект свечения для ведущего символа
-      drawingContext.shadowColor = color(180, 255, 200, 150);
+      drawingContext.shadowColor = "rgba(180,255,200,0.6)";
       drawingContext.shadowBlur = 40;
     } else {
       // Обычные символы

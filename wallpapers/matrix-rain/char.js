@@ -29,8 +29,7 @@ class Character {
       // Ведущий символ
       fill(180, 255, 200);
       
-      // Эффект свечения для ведущего символа
-      drawingContext.shadowColor = color(180, 255, 200, 150);
+      drawingContext.shadowColor = "rgba(180,255,200,0.6)";
       drawingContext.shadowBlur = 20;
     } else {
       // Обычные символы

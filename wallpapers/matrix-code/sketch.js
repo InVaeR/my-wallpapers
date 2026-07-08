@@ -54,6 +54,7 @@ function setup() {
   cols = Math.floor(width / CELL_SIZE);
   rows = Math.floor(height / CELL_SIZE);
 
+  frameRate(60);
   background(0);
 }
 

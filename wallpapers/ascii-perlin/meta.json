@@ -1,0 +1,6 @@
+{
+    "title": "ASCII_PERLIN",
+    "desc": "ASCII-шум Перлина с логотипом по центру",
+    "tags": ["ascii", "perlin", "retro"],
+    "extension": "js"
+}
